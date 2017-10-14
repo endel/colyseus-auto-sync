@@ -1,0 +1,28 @@
+{
+  "name": "@colyseus/helpers",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --host 0.0.0.0"
+  },
+  "repository": "git@github.com:gamestdio/colyseus-helpers.git",
+  "author": "Endel Dreyer <endel.dreyer@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@gamestdio/mathf": "^1.0.1",
+    "@types/pixi.js": "^4.5.7",
+    "colyseus.js": "^0.7.4",
+    "pixi.js": "^4.5.6"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.2.1",
+    "css-loader": "^0.28.4",
+    "expose-loader": "^0.7.3",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^2.29.0",
+    "style-loader": "^0.18.2",
+    "typescript": "^2.4.2",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.5.1"
+  }
+}
