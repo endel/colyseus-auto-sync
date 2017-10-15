@@ -5,7 +5,7 @@ import { createServer } from 'http';
 import { Server } from 'colyseus';
 
 // Require ChatRoom handler
-import { GameRoom } from "./rooms/game";
+import { PongRoom } from "./handlers/PongRoom";
 
 const port = Number(process.env.PORT || 2657);
 const app = express();
@@ -17,7 +17,7 @@ const httpServer = createServer(app);
 const gameServer = new Server({ server: httpServer });
 
 // Register room
-gameServer.register("game", GameRoom);
+gameServer.register("pong", PongRoom);
 
 app.use(express.static(path.join(__dirname, "static")));
 app.use('/', serveIndex(path.join(__dirname, "static"), {'icons': true}))

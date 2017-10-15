@@ -4,14 +4,15 @@
   "description": "Usage Examples of Colyseus Game Server",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "nodemon --watch '**/*.ts' --exec 'ts-node' index.ts"
   },
+
   "author": "",
   "license": "ISC",
   "dependencies": {
     "colyseus": "^0.5.7",
     "express": "^4.14.0",
-    "nodemon": "^1.11.0",
+    "nodemon": "^1.12.1",
     "serve-index": "^1.8.0"
   },
   "devDependencies": {

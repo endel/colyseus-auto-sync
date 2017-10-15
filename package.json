@@ -9,6 +9,7 @@
   "author": "Endel Dreyer <endel.dreyer@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@gamestdio/keycode": "^1.0.2",
     "@gamestdio/mathf": "^1.0.1",
     "@types/pixi.js": "^4.5.7",
     "colyseus.js": "^0.7.4",

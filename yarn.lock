@@ -6,6 +6,10 @@
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@gamestdio/clock/-/clock-1.1.9.tgz#77ec0c011391fbbfdcb4f32112429536fd8680cb"
 
+"@gamestdio/keycode@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@gamestdio/keycode/-/keycode-1.0.2.tgz#36ca32e05432f9c04ad9c770f3f631fe33c6bf00"
+
 "@gamestdio/mathf@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@gamestdio/mathf/-/mathf-1.0.1.tgz#17e157bfede1bf916e4236b224e73747db1216d0"
