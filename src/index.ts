@@ -1,20 +1,20 @@
 import * as PIXI from "pixi.js";
 import { Client, Room } from "colyseus.js";
 import Keycode from "@gamestdio/keycode";
-import { setup } from "./sync/helpers";
+import { initializeSync } from "./sync/helpers";
 
-import { Application } from "./Application";
+import { PongGame } from "./PongGame";
 
 let client = new Client("ws://localhost:2657");
 let pongRoom = client.join("pong");
 
-let app = new Application();
-setup(pongRoom, app);
+let game = new PongGame();
+initializeSync(pongRoom, game);
 
-document.body.appendChild(app.view);
+document.body.appendChild(game.view);
 
 function render () {
-    app.render();
+    game.render();
     window.requestAnimationFrame(render);
 }
 

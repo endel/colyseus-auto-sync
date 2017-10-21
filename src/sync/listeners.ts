@@ -57,15 +57,22 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
 
 export function varListener (room: Room, property: Property, synchable: Synchable, synchableRoot?: Synchable, parentSegment?: string) {
     return function (change: DataChange) {
-        console.log("var:", change);
+        //
+        // TODO:
+        // support deeper entities, with paths like: `entities/:id/items/:id`
+        //
+        let target = (change.path.id)
+            ? synchableRoot[ this.rawRules[0] ][ change.path.id ]
+            :  synchable;
+
         if (change.operation === "add") {
-            synchable[ property.variable ] = change.value;
+            target[ property.variable ] = change.value;
 
         } else if (change.operation === "replace") {
-            synchable[ property.variable ] = change.value;
+            target[ property.variable ] = change.value;
 
         } else if (change.operation === "remove") {
-            delete synchable[ property.variable ];
+            delete target[ property.variable ];
         }
     }
 }

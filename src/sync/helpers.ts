@@ -5,6 +5,26 @@ import * as listeners from "./listeners";
 
 export { EntityMap };
 
+export function initializeSync (room: Room, synchable: any & Synchable) {
+    createBindings(room, synchable, synchable);
+}
+
+export function syncMap (type?: any, addCallback?: Function, removeCallback?: Function): PropertyDecorator {
+    return sync(type, "map", addCallback, removeCallback);
+}
+
+export function syncObject (type?: any, addCallback?: Function, removeCallback?: Function): PropertyDecorator {
+    return sync(type, "object", addCallback, removeCallback);
+}
+
+export function syncVar (type?: any, addCallback?: Function, removeCallback?: Function): PropertyDecorator {
+    return sync(type, "var");
+}
+
+export function syncList (type?: any, addCallback?: Function, removeCallback?: Function): PropertyDecorator {
+    return sync(type, "list", addCallback, removeCallback);
+}
+
 export function sync (type?: any, holderType: string = 'var', addCallback?: Function, removeCallback?: Function): PropertyDecorator {
     return function (target: any & Synchable, propertyKey: string | symbol) {
         if (!target.properties) {
@@ -26,10 +46,6 @@ export function sync (type?: any, holderType: string = 'var', addCallback?: Func
             removeCallback
         };
     }
-}
-
-export function setup (room: Room, synchable: any & Synchable) {
-    createBindings(room, synchable, synchable);
 }
 
 let listenersMap: any = {};
