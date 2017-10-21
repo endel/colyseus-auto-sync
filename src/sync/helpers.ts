@@ -27,8 +27,8 @@ export function syncList (type?: any, addCallback?: Function, removeCallback?: F
 
 export function sync (type?: any, holderType: string = 'var', addCallback?: Function, removeCallback?: Function): PropertyDecorator {
     return function (target: any & Synchable, propertyKey: string | symbol) {
-        if (!target.properties) {
-            target.properties = {};
+        if (!target.constructor.properties) {
+            target.constructor.properties = {};
         }
 
         let remap: string;
@@ -38,7 +38,7 @@ export function sync (type?: any, holderType: string = 'var', addCallback?: Func
             type = undefined;
         }
 
-        target.properties[propertyKey] = {
+        target.constructor.properties[propertyKey] = {
             type,
             remap,
             holderType,
@@ -56,12 +56,14 @@ export function createBindings (
     synchableRoot?: any & Synchable,
     parentSegment?: string
 ) {
+    let properties = synchable.constructor.properties || synchable.properties;
+
     // no properties to sync
-    if (!synchable.properties) return;
+    if (!properties) return;
 
     // create bindings for properties
-    for (let segment in synchable.properties) {
-        let property: Property = synchable.properties[ segment ];
+    for (let segment in properties) {
+        let property: Property = properties[ segment ];
         let variable = segment.concat();
 
         if (property.remap) {
@@ -88,5 +90,9 @@ export function createBindings (
 
         let listener = listeners[ `${ property.holderType }Listener` ];
         room.listen(path, listener(room, property, synchable, synchableRoot, path));
+
+        if (property.type) {
+            createBindings(room, property.type, synchable, path);
+        }
     }
 }

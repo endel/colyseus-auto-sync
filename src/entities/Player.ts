@@ -1,10 +1,14 @@
 import * as PIXI from "pixi.js";
-import { sync } from "../sync/helpers";
+import { sync, syncMap, EntityMap } from "../sync/helpers";
 import { lerp } from "@gamestdio/mathf";
+
+import { PowerUp } from "./PowerUp";
 
 export class Player extends PIXI.Graphics {
     @sync('x') x: number;
     @sync('y') nextY: number;
+
+    @syncMap(PowerUp) powerUps: EntityMap<PowerUp> = {};
 
     constructor () {
         super();
@@ -23,4 +27,3 @@ export class Player extends PIXI.Graphics {
     }
 
 }
-

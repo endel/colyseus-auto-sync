@@ -2,8 +2,6 @@ import { Room } from "colyseus.js";
 import { DataChange } from "delta-listener";
 import { Property, Synchable } from "./types";
 
-import { createBindings } from "./helpers";
-
 export function objectListener (room: Room, property: Property, synchable: Synchable, synchableRoot?: Synchable, parentSegment?: string) {
     return function (change: DataChange) {
         if (change.operation === "add") {
@@ -16,8 +14,6 @@ export function objectListener (room: Room, property: Property, synchable: Synch
 
             synchable[ property.variable ] = newType;
             property.addCallback.call(synchableRoot, synchableRoot, newType);
-
-            createBindings(room, newType, synchable, parentSegment);
 
         } else if (change.operation === "replace") {
             synchableRoot[ this.rawRules[0] ][ property.variable ] = change.value;
@@ -38,12 +34,11 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
             // assign all variables to new instance type
             for (let prop in change.value) {
                 newType[ prop ] = change.value[ prop ];
+                console.log("set:", prop, change.value[ prop ]);
             }
 
             synchable[ property.variable ][ change.path.id ] = newType;
             property.addCallback.call(synchableRoot, synchableRoot, newType);
-
-            createBindings(room, newType, synchable, parentSegment);
 
         } else if (change.operation === "replace") {
             synchableRoot[ this.rawRules[0] ][ change.path.id ][ property.variable ] = change.value;
