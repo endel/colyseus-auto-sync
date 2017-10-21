@@ -1012,6 +1012,10 @@ delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
 
+delta-listener@2.1.0-alpha.0:
+  version "2.1.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/delta-listener/-/delta-listener-2.1.0-alpha.0.tgz#ca46741cddb3dafc604310b808a142bc1ffb1cc2"
+
 delta-listener@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/delta-listener/-/delta-listener-2.0.0.tgz#8a8550516eeb631492bea5981a7bdeb33ab254c3"

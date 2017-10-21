@@ -12,6 +12,14 @@ export class PongRoom extends Room<PongState> {
 
     onJoin (client) {
         this.state.addPlayer(client.sessionId, this.clients.length);
+        this.state.start();
+
+        // if (this.clients.length === 2) {
+        //     // prevent new players from joining
+        //     this.lock();
+        //
+        //     this.state.start();
+        // }
     }
 
     onLeave (client) {
@@ -23,6 +31,8 @@ export class PongRoom extends Room<PongState> {
         if (typeof(data) !== "number") {
             return;
         }
+
+        console.log("onMessage:", client.sessionId, data);
 
         this.state.movePlayer(client.sessionId, data);
     }

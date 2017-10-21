@@ -13,6 +13,7 @@
     "@gamestdio/mathf": "^1.0.1",
     "@types/pixi.js": "^4.5.7",
     "colyseus.js": "^0.7.4",
+    "delta-listener": "2.1.0-alpha.0",
     "pixi.js": "^4.5.6"
   },
   "devDependencies": {

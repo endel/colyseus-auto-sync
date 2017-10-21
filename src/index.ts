@@ -4,7 +4,6 @@ import Keycode from "@gamestdio/keycode";
 import { setup } from "./sync/helpers";
 
 import { Application } from "./Application";
-import { Player } from "./Player";
 
 let client = new Client("ws://localhost:2657");
 let pongRoom = client.join("pong");

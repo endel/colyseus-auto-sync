@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { sync } from "./sync/helpers";
+import { sync } from "../sync/helpers";
 import { lerp } from "@gamestdio/mathf";
 
 export class Player extends PIXI.Graphics {
@@ -23,3 +23,4 @@ export class Player extends PIXI.Graphics {
     }
 
 }
+

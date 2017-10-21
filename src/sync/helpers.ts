@@ -1,21 +1,11 @@
 import { Room } from "colyseus.js";
 import { DataChange } from "delta-listener";
+import { Synchable, EntityMap, Property } from "./types";
+import * as listeners from "./listeners";
 
-export type EntityMap<T> = {[ entityId:string ]: T};
+export { EntityMap };
 
-interface Property {
-    holderType: 'var' | 'map' | 'list';
-    type?: any;
-    remap?: string;
-    addCallback?: Function;
-    removeCallback?: Function;
-}
-
-interface Synchable {
-    properties?: Property[];
-}
-
-export function sync (type?: any, holderType: string = '', addCallback?: Function, removeCallback?: Function): PropertyDecorator {
+export function sync (type?: any, holderType: string = 'var', addCallback?: Function, removeCallback?: Function): PropertyDecorator {
     return function (target: any & Synchable, propertyKey: string | symbol) {
         if (!target.properties) {
             target.properties = {};
@@ -42,9 +32,9 @@ export function setup (room: Room, synchable: any & Synchable) {
     createBindings(room, synchable, synchable);
 }
 
-let listeners: any = {};
+let listenersMap: any = {};
 
-function createBindings (
+export function createBindings (
     room: Room,
     synchable: any & Synchable,
     synchableRoot?: any & Synchable,
@@ -62,61 +52,25 @@ function createBindings (
             segment = property.remap;
         }
 
+        property.variable = variable;
+
         let path = (parentSegment)
             ? `${ parentSegment }/${ segment }`
             : segment;
 
         if (property.holderType === "map") {
             path += "/:id";
-
-        } else if (property.holderType === "var") {
-            path += `/${ segment }`;
         }
 
-        // skip if duplicate listeners
-        if (listeners[path]) {
+        // skip if duplicate listenersMap
+        if (listenersMap[path]) {
             return;
 
         } else {
-            listeners[path] = true;
+            listenersMap[path] = true;
         }
 
-        console.log("path:", path, "segment:", segment, "variable:", variable);
-
-        let onChange = function (change: DataChange) {
-            if (change.operation === "add") {
-                let newType = new property.type();
-
-                // assign all variables to new instance type
-                for (let prop in change.value) {
-                    newType[ prop ] = change.value[ prop ];
-                }
-
-                synchable[ variable ][ change.path.id ] = newType;
-                property.addCallback.call(synchableRoot, synchableRoot, newType);
-
-                createBindings(room, newType, synchable, path);
-
-            } else if (change.operation === "replace") {
-                synchableRoot[ this.rawRules[0] ][ change.path.id ][ variable ] = change.value;
-
-            } else if (change.operation === "remove") {
-                property.removeCallback.call(synchableRoot, synchableRoot, synchable[ variable ][ change.path.id ]);
-                delete synchable[ variable ][ change.path.id ];
-
-            }
-        };
-
-        room.onUpdate.addOnce(function (state) {
-            for (let sessionId in state[ segment ]) {
-                onChange({
-                    operation: "add",
-                    value: state[ segment ],
-                    path: { id: sessionId }
-                });
-            }
-        });
-
-        room.listen(path, onChange);
+        let listener = listeners[ `${ property.holderType }Listener` ];
+        room.listen(path, listener(room, property, synchable, synchableRoot, path));
     }
 }
