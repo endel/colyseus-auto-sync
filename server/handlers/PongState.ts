@@ -51,9 +51,6 @@ export class PongState {
     }
 
     update () {
-        // move / collide ball
-        this.ball.update();
-
         // let moveAmount = this.timer.elapsedTime > 0 ? this.timer.elapsedTime / 10 : 1;
         let moveAmount = 3;
 
@@ -81,8 +78,8 @@ export class PongState {
 
             if (this.ball.x + this.ball.radius >= this.boundaries.width - player1.width) {
                 if (
-                    this.ball.y + this.ball.radius >= player1.y - player1.height / 2 &&
-                    this.ball.y + this.ball.radius <= player1.y + player1.height / 2
+                    this.ball.y >= player1.y &&
+                    this.ball.y <= player1.y + player1.height
                 ) {
                     if (this.ball.vx <= this.ball.maxSpeed) {
                         this.ball.vx += this.ball.multiplier;
@@ -102,8 +99,8 @@ export class PongState {
             } else if (this.ball.x - this.ball.radius <= player2.width) {
                 /* checking collision between ball and cpu */
                 if (
-                    this.ball.y + this.ball.radius >= player2.y - player1.height / 2 &&
-                    this.ball.y + this.ball.radius <= player2.y + player1.height / 2
+                    this.ball.y >= player2.y &&
+                    this.ball.y <= player2.y + player1.height
                 ) {
                     if(this.ball.vx >= -this.ball.maxSpeed) {
                         this.ball.vx -= this.ball.multiplier;
@@ -140,17 +137,18 @@ export class PongState {
     }
 
     changeBallDirection (player) {
-        if (player.y > this.ball.y) {
-            this.ball.vy -= (player.y - this.ball.y) / player.height * this.ball.maxSpeed;
+        if (player.y + player.height / 2 > this.ball.y) {
+            this.ball.vy -= ((player.y + player.height / 2) - this.ball.y) / player.height * this.ball.maxSpeed;
 
-        } else if(player.y < this.ball.y) {
-            this.ball.vy += (this.ball.y - player.y) / player.height * this.ball.maxSpeed;
+        } else if(player.y + player.height / 2 < this.ball.y) {
+            this.ball.vy += (this.ball.y - (player.y + player.height / 2)) / player.height * this.ball.maxSpeed;
         }
 
         this.ball.vx *= -1;
     }
 
     resetBall () {
+        this.ball.reset();
         this.ball.x = this.boundaries.width / 2;
         this.ball.y = this.boundaries.height / 2;
     }

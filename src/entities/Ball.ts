@@ -25,8 +25,8 @@ export class Ball extends PIXI.Graphics {
     }
 
     updateTransform (...args) {
-        this.x = lerp(this.x, this._nextX, 0.1);
-        this.y = lerp(this.y, this._nextY, 0.1);
+        this.x = lerp(this.x, this._nextX, 0.25);
+        this.y = lerp(this.y, this._nextY, 0.25);
 
         super.updateTransform.apply(this, args);
     }

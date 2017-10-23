@@ -5,16 +5,18 @@ export class Ball {
     y: number;
 
     @nosync vx: number = Math.round(Math.random()) ? 1 : -1;
-    @nosync vy: number = Math.random() * 4 - 2;
+    @nosync vy: number;
 
     @nosync radius = 25;
     @nosync maxSpeed = 5;
     @nosync multiplier = .2;
 
     constructor () {
+        this.reset();
     }
 
-    update () {
+    reset () {
+        this.vy = Math.random() * 4 - 2;
     }
 
 }
