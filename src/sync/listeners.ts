@@ -88,10 +88,6 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
 
 export function varListener (room: Room, property: Property, synchable: Synchable, synchableRoot?: Synchable, parentSegment?: string) {
     return function (change: DataChange) {
-        //
-        // TODO:
-        // support deeper entities, with paths like: `entities/:id/items/:id`
-        //
         let target = getInstanceContainer(synchableRoot, change.rawPath);
 
         if (change.operation !== "remove") {
