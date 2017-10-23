@@ -4,11 +4,14 @@ import { lerp } from "@gamestdio/mathf";
 
 import { PowerUp } from "./PowerUp";
 
+let onAdded = (player, powerUp) => console.log("added:", player, powerUp);
+let onRemoved = (player, powerUp) => console.log("removed:", player, powerUp);
+
 export class Player extends PIXI.Graphics {
     @sync('x') x: number;
     @sync('y') nextY: number;
 
-    @syncMap(PowerUp) powerUps: EntityMap<PowerUp> = {};
+    @syncMap(PowerUp, onAdded, onRemoved) powerUps: EntityMap<PowerUp> = {};
 
     constructor () {
         super();

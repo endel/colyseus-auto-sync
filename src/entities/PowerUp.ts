@@ -1,7 +1,10 @@
+import { sync } from "../sync/helpers";
+
 export class PowerUp {
+    @sync() count: number;
 
     constructor () {
-        console.log("new powerup!");
+        console.log("construct PowerUp!");
     }
 
 }

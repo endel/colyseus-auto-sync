@@ -31,19 +31,20 @@ export function sync (type?: any, holderType: string = 'var', addCallback?: Func
             target.constructor.properties = {};
         }
 
-        let remap: string;
+        let variable: string | symbol = propertyKey;
 
         if (typeof(type) === "string") {
-            remap = type;
+            variable = propertyKey;
+            propertyKey = type;
             type = undefined;
         }
 
         target.constructor.properties[propertyKey] = {
             type,
-            remap,
             holderType,
             addCallback,
-            removeCallback
+            removeCallback,
+            variable: variable
         };
     }
 }
@@ -64,13 +65,6 @@ export function createBindings (
     // create bindings for properties
     for (let segment in properties) {
         let property: Property = properties[ segment ];
-        let variable = segment.concat();
-
-        if (property.remap) {
-            segment = property.remap;
-        }
-
-        property.variable = variable;
 
         let path = (parentSegment)
             ? `${ parentSegment }/${ segment }`
