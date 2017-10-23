@@ -3,8 +3,8 @@ import { sync } from "../sync/helpers";
 import { lerp } from "@gamestdio/mathf";
 
 export class Ball extends PIXI.Graphics {
-    _nextX: number;
-    _nextY: number;
+    _nextX: number = 0;
+    _nextY: number = 0;
 
     constructor () {
         super();

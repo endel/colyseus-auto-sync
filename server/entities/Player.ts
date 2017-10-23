@@ -4,6 +4,8 @@ import { PowerUp } from "./PowerUp";
 export class Player {
     x: number;
     y: number;
+    score: number = 0;
+
     powerUps: EntityMap<PowerUp> = {};
 
     @nosync direction: number = 0;

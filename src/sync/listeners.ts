@@ -73,7 +73,6 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
                 property.addCallback.call(newType.__mapParent, newType.__mapParent, newType);
             }
 
-
         } else if (change.operation === "replace") {
             assign(instance, property, property.variable, change.value);
 
@@ -81,6 +80,7 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
             if (property.removeCallback) {
                 property.removeCallback.call(instance.__mapParent, instance.__mapParent, instance);
             }
+
             delete synchable[ property.variable ][ change.path.id ];
         }
     }
