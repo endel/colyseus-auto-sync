@@ -10,7 +10,14 @@ function assign (instance: any, property: Property, propName: string, value: any
     // } else if (property.holderType === "map") {
     //     for (let entityId in value) {
     //         instance[ propName ][ entityId ] = new property.type();
+    //         // assignMultiple (instance[ propName ][ entityId ], property.type.properties, value[ entityId ])
     //     }
+    }
+}
+
+function assignMultiple (instance: any, properties: Property[], value: any) {
+    for (let prop in properties) {
+        assign(instance, properties[ prop ], prop, value[ prop ]);
     }
 }
 
@@ -41,13 +48,13 @@ export function objectListener (room: Room, property: Property, synchable: Synch
             bindListeners(property.type.listeners, room, newType);
 
             synchable[ property.variable ] = newType;
-            property.addCallback.call(synchableRoot, synchableRoot, newType);
+            property.addCallback.call(synchableRoot, synchableRoot, newType, change);
 
         } else if (change.operation === "replace") {
             synchableRoot[ this.rawRules[0] ][ property.variable ] = change.value;
 
         } else if (change.operation === "remove") {
-            property.removeCallback.call(synchableRoot, synchableRoot, synchable[ property.variable ][ change.path.id ]);
+            property.removeCallback.call(synchableRoot, synchableRoot, synchable[ property.variable ][ change.path.id ], change);
             delete synchable[ property.variable ];
         }
     }
@@ -66,8 +73,11 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
 
             instance[ change.path.id ] = newType;
 
+            // assign all variables to new instance type
+            assignMultiple(newType, property.type.properties, change.value);
+
             if (property.addCallback) {
-                property.addCallback.call(newType.__mapParent, newType.__mapParent, newType);
+                property.addCallback.call(newType.__mapParent, newType.__mapParent, newType, change);
             }
 
         } else if (change.operation === "replace") {
@@ -75,7 +85,7 @@ export function mapListener (room: Room, property: Property, synchable: Synchabl
 
         } else if (change.operation === "remove") {
             if (property.removeCallback) {
-                property.removeCallback.call(instance.__mapParent, instance.__mapParent, instance);
+                property.removeCallback.call(instance.__mapParent, instance.__mapParent, instance, change);
             }
 
             delete synchable[ property.variable ][ change.path.id ];

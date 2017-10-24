@@ -23,7 +23,7 @@ export class Player extends PIXI.Graphics {
 
     @listen("players/:id/score")
     onScoreUpdate (change) {
-        console.log(this, change);
+        // console.log(this, change);
     }
 
     updateTransform (...args) {

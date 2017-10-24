@@ -78,8 +78,8 @@ export class PongState {
 
             if (this.ball.x + this.ball.radius >= this.boundaries.width - player1.width) {
                 if (
-                    this.ball.y >= player1.y &&
-                    this.ball.y <= player1.y + player1.height
+                    this.ball.y + this.ball.radius >= player1.y &&
+                    this.ball.y - this.ball.radius <= player1.y + player1.height
                 ) {
                     if (this.ball.vx <= this.ball.maxSpeed) {
                         this.ball.vx += this.ball.multiplier;
@@ -99,8 +99,8 @@ export class PongState {
             } else if (this.ball.x - this.ball.radius <= player2.width) {
                 /* checking collision between ball and cpu */
                 if (
-                    this.ball.y >= player2.y &&
-                    this.ball.y <= player2.y + player1.height
+                    this.ball.y + this.ball.radius >= player2.y &&
+                    this.ball.y - this.ball.radius <= player2.y + player1.height
                 ) {
                     if(this.ball.vx >= -this.ball.maxSpeed) {
                         this.ball.vx -= this.ball.multiplier;

@@ -13,7 +13,7 @@ module.exports = function(options) {
     },
 
     output: {
-      path: path.resolve("dist"),
+      path: path.resolve("server/static"),
       filename: 'bundle.js'
     },
 
