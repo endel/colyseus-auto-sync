@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { sync, syncMap, EntityMap } from "../sync/helpers";
+import { sync, syncMap, listen, EntityMap } from "../sync/helpers";
 import { lerp } from "@gamestdio/mathf";
 
 import { PowerUp } from "./PowerUp";
@@ -20,6 +20,11 @@ export class Player extends PIXI.Graphics {
         this.drawRect(0, 0, 30, 200);
         this.endFill();
     }
+
+    // @listen("players/:id/score")
+    // onScoreUpdate (change) {
+    //     console.log(this, change.path.id, change.value);
+    // }
 
     updateTransform (...args) {
         if (this.nextY) {

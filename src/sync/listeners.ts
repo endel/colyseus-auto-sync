@@ -1,6 +1,7 @@
 import { Room } from "colyseus.js";
 import { DataChange } from "delta-listener";
 import { Property, Synchable } from "./types";
+import { bindListeners } from "./helpers";
 
 function assign (instance: any, property: Property, propName: string, value: any) {
     if (property.holderType === "var") {

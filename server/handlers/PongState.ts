@@ -137,11 +137,12 @@ export class PongState {
     }
 
     changeBallDirection (player) {
-        if (player.y + player.height / 2 > this.ball.y) {
-            this.ball.vy -= ((player.y + player.height / 2) - this.ball.y) / player.height * this.ball.maxSpeed;
+        let halfPlayerY = player.y + player.height / 2;
+        if (halfPlayerY > this.ball.y) {
+            this.ball.vy -= (halfPlayerY - this.ball.y) / player.height * this.ball.maxSpeed;
 
-        } else if(player.y + player.height / 2 < this.ball.y) {
-            this.ball.vy += (this.ball.y - (player.y + player.height / 2)) / player.height * this.ball.maxSpeed;
+        } else if(halfPlayerY < this.ball.y) {
+            this.ball.vy += (this.ball.y - halfPlayerY) / player.height * this.ball.maxSpeed;
         }
 
         this.ball.vx *= -1;

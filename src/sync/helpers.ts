@@ -49,6 +49,15 @@ export function sync (type?: any, holderType: string = 'var', addCallback?: Func
     }
 }
 
+export function listen (path: string): MethodDecorator {
+    return function (target: any, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<any>) {
+        if (!target.constructor.listeners) {
+            target.constructor.listeners = {};
+        }
+        target.constructor.listeners[ path ] = propertyKey;
+    }
+}
+
 let listenersMap: any = {};
 
 export function createBindings (
@@ -57,8 +66,17 @@ export function createBindings (
     synchableRoot?: any & Synchable,
     parentSegment?: string
 ) {
-    let properties = synchable.constructor.properties || synchable.properties;
+    bindProperties(synchable.constructor.properties || synchable.properties, room, synchable, synchableRoot, parentSegment);
+    bindListeners(synchable.constructor.listeners, room, synchable);
+}
 
+function bindProperties (
+    properties: { [id: string]: Property },
+    room: Room,
+    synchable: any & Synchable,
+    synchableRoot?: any & Synchable,
+    parentSegment?: string
+) {
     // no properties to sync
     if (!properties) return;
 
@@ -88,5 +106,19 @@ export function createBindings (
         if (property.type) {
             createBindings(room, property.type, synchable, path);
         }
+    }
+}
+
+export function bindListeners (
+    listeners: { [path: string]: any },
+    room: Room,
+    synchable: any & Synchable
+) {
+    if (!listeners) {
+        return;
+    }
+
+    for (let path in listeners) {
+        room.listen(path, synchable[ listeners[ path ] ].bind(synchable));
     }
 }
