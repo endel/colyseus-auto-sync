@@ -21,10 +21,10 @@ export class Player extends PIXI.Graphics {
         this.endFill();
     }
 
-    // @listen("players/:id/score")
-    // onScoreUpdate (change) {
-    //     console.log(this, change.path.id, change.value);
-    // }
+    @listen("players/:id/score")
+    onScoreUpdate (change) {
+        console.log(this, change);
+    }
 
     updateTransform (...args) {
         if (this.nextY) {
