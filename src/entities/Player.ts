@@ -21,11 +21,6 @@ export class Player extends PIXI.Graphics {
         this.endFill();
     }
 
-    @listen("players/:id/score")
-    onScoreUpdate (change) {
-        // console.log(this, change);
-    }
-
     updateTransform (...args) {
         if (this.nextY) {
             this.y = lerp(this.y, this.nextY, 0.09);

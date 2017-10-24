@@ -3,8 +3,8 @@ import { sync } from "../sync/helpers";
 import { lerp } from "@gamestdio/mathf";
 
 export class Ball extends PIXI.Graphics {
-    _nextX: number = 400;
-    _nextY: number = -100;
+    @sync('x') nextX: number = 400;
+    @sync('y') nextY: number = -100;
 
     constructor () {
         super();
@@ -14,19 +14,9 @@ export class Ball extends PIXI.Graphics {
         this.endFill();
     }
 
-    @sync('x')
-    set nextX (value: number) {
-        this._nextX = value;
-    }
-
-    @sync('y')
-    set nextY (value: number) {
-        this._nextY = value;
-    }
-
     updateTransform (...args) {
-        this.x = lerp(this.x, this._nextX, 0.25);
-        this.y = lerp(this.y, this._nextY, 0.25);
+        this.x = lerp(this.x, this.nextX, 0.25);
+        this.y = lerp(this.y, this.nextY, 0.25);
 
         super.updateTransform.apply(this, args);
     }

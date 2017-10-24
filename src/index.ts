@@ -5,7 +5,9 @@ import { initializeSync } from "./sync/helpers";
 
 import { PongGame } from "./PongGame";
 
-let client = new Client("ws://localhost:2657");
+// use 2657 port on localhost.
+let port = (window.location.hostname.indexOf("localhost")) >= 0 ? ":2657" : "";
+let client = new Client(`${ window.location.protocol.replace("http", "ws") }//${ window.location.hostname }${ port }`);
 let pongRoom = client.join("pong");
 
 let game = new PongGame();
