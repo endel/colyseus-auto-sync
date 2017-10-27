@@ -91,9 +91,6 @@ export class PongState {
                     player2.score++;
                     this.resetBall();
                     this.ball.vx = -1;
-
-                    // TODO: reset ball
-                    // this.ball.reset();
                 }
 
             } else if (this.ball.x - this.ball.radius <= player2.width) {
@@ -112,8 +109,6 @@ export class PongState {
                     player1.score++;
                     this.resetBall();
                     this.ball.vx = 1;
-
-                    // this.ball.reset();
                 }
             }
 
